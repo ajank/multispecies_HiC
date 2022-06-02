@@ -1,0 +1,81 @@
+#
+#  Global parameters
+#
+
+paths:
+  projectpath: /home/ajank/larval_brain
+  datadir: data
+  genomedatadir: data/genome
+  analysisdir: analysis
+  configdir: config
+  envdir: env
+  tmpdir: tmp
+  srcdir: src
+  shellsrcdir: src/sh
+  pysrcdir: src/python
+  Rsrcdir: src/R
+  snakemakesrcdir: src/snakemake
+
+software: # note that most of the software is defined as Conda environments
+  juicebox: "/home/ajank/software/juicer/AWS/scripts/juicebox" # recompiled, handles dm6 assembly and builds matrices at resolutions up to 1 kb
+
+#
+#  Genome files
+#
+
+genomes:
+  "An_col": {
+    symbol: "AcolNg_V4",
+    chromosomes: "2L 2R 3L 3R X",
+    fasta: "data/genome/Anopheles/genomes/AcolNg_V4/AcolNg_V4.fa",
+    chrom_sizes: "data/genome/Anopheles/genomes/AcolNg_V4/AcolNg_V4.chrom.sizes",
+    chrom_sizes_for_juicebox: "data/genome/Anopheles/genomes/AcolNg_V4/AcolNg_V4.canonical.chrom.sizes"
+  }
+  "D_vir": {
+    symbol: "Dvir_HiC",
+    chromosomes: "2L 2R 3L 3R 4 X",
+    fasta: "data/genome/Drosophila_Renschler2019/GSE120751/suppl/GSE120751_Dvir_HiC.fa",
+    chrom_sizes: "data/genome/Drosophila_Renschler2019/GSE120751/suppl/GSE120751_Dvir_HiC.chrom.sizes",
+    chrom_sizes_for_juicebox: "data/genome/Drosophila_Renschler2019/GSE120751/suppl/GSE120751_Dvir_HiC.canonical.chrom.sizes"
+  }
+  "D_mel": {
+    symbol: "dmel_r6.36",
+    chromosomes: "2L 2R 3L 3R 4 X Y",
+    fasta: "data/genome/D.melanogaster/dm6/dmel_r6.36_FB2020_05/fasta/dmel-all-chromosome-r6.36.fasta",
+    chrom_sizes: "data/genome/D.melanogaster/dm6/dmel_r6.36_FB2020_05/fasta/dmel-all-chromosome-r6.36.chrom.sizes",
+    chrom_sizes_for_juicebox: "dm6"
+  }
+
+evoHiC:
+  datadir: data/evoHiC
+  barcodedfastqdir: data/evoHiC/barcoded_fastq
+  fastqdir: data/evoHiC/fastq
+  bamdir: data/evoHiC/bam
+  bigwigdir: data/evoHiC/bw
+  qcdir: data/evoHiC/qc
+  restrictionEnzyme: "MboI+MseI"
+  restrictionSequence: "GATC TTAA"
+  danglingSequence: "GATC TAA"
+  filterThreshold: "-1.5 5"
+  fastq: {
+    read1: "data/evoHiC/barcoded_fastq/evoHiC_L7_R1_001.fastq.gz",
+    read2: "data/evoHiC/barcoded_fastq/evoHiC_L7_R2_001.fastq.gz"
+  }
+  barcodes: "config/evoHiC_barcodes.txt"
+  dataset_to_genome:
+    "HiC_An_col_WT_adult_brain_Rep1": "An_col"
+    "HiC_An_col_WT_adult_brain_Rep2": "An_col"
+    "HiC_D_vir_WT_adult_brain_Rep1": "D_vir"
+    "HiC_D_vir_WT_adult_brain_Rep2": "D_vir"
+    "HiC_D_mel_bal_adult_brain_Rep1": "D_mel"
+    "HiC_D_mel_bal_adult_brain_Rep2": "D_mel"
+  combined_dataset_to_dataset:
+    "HiC_An_col_WT_adult_brain":
+      - "HiC_An_col_WT_adult_brain_Rep1"
+      - "HiC_An_col_WT_adult_brain_Rep2"
+    "HiC_D_vir_WT_adult_brain":
+      - "HiC_D_vir_WT_adult_brain_Rep1"
+      - "HiC_D_vir_WT_adult_brain_Rep2"
+    "HiC_D_mel_bal_adult_brain":
+      - "HiC_D_mel_bal_adult_brain_Rep1"
+      - "HiC_D_mel_bal_adult_brain_Rep2"
